@@ -1,0 +1,46 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Movies.qml</file>
+        <file>Music.qml</file>
+        <file>Games.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>main.cpp</file>
+        <file>assets/icons/games.png</file>
+        <file>assets/icons/movies.png</file>
+        <file>assets/icons/music.png</file>
+        <file>MyDelegate.qml</file>
+        <file>assets/icons/next.png</file>
+        <file>assets/icons/help.png</file>
+        <file>assets/icons/logout.png</file>
+        <file>assets/icons/notifications.png</file>
+        <file>assets/icons/timer.png</file>
+        <file>assets/icons/cart.png</file>
+        <file>assets/icons/cost.png</file>
+        <file>assets/posters/darktower.jpg</file>
+        <file>assets/posters/darktower_thumb.jpg</file>
+        <file>assets/posters/annabelle2.jpg</file>
+        <file>assets/posters/annabelle2_thumb.jpg</file>
+        <file>assets/posters/emojimovie.jpg</file>
+        <file>assets/posters/emojimovie_thumb.jpg</file>
+        <file>assets/posters/mphpc.jpg</file>
+        <file>assets/posters/mphpc_thumb.jpg</file>
+        <file>assets/posters/nutjob2.jpg</file>
+        <file>assets/posters/nutjob2_thumb.jpg</file>
+        <file>assets/albumart/coldplay_mx.jpg</file>
+        <file>assets/albumart/coldplay_vlv.jpg</file>
+        <file>assets/albumart/fray.jpg</file>
+        <file>assets/albumart/knaan.jpg</file>
+        <file>assets/albumart/lifehouse.jpg</file>
+        <file>assets/albumart/nataliegrant.jpg</file>
+        <file>assets/albumart/sanctusreal.jpg</file>
+        <file>assets/icons/cart1.png</file>
+        <file>functions.js</file>
+        <file>assets/icons/user.png</file>
+        <file>Home.qml</file>
+        <file>assets/icons/games_.png</file>
+        <file>assets/icons/music_.png</file>
+        <file>assets/icons/movies_.png</file>
+        <file>Client.qml</file>
+    </qresource>
+</RCC>
