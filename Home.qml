@@ -1,9 +1,14 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import "tools"
 
 Page {
-    id: homepage
+    id: homePage
+
+    property string pageTitle: qsTr("Modio Burn Options")
+
+    property string clientName: userName
 
     RowLayout {
         anchors.verticalCenter: parent.verticalCenter
@@ -17,70 +22,87 @@ Page {
             anchors.leftMargin: 100
             color: "#ababab"
             font.pixelSize: 50
-            text: qsTr("Hi,\nWhat would you like to do today?")
+            text: qsTr("Hello ") + clientName + qsTr(",\nWhat would you like to do today?")
         }
 
         Item {
-            width: parent.width / 1.8
+            width: Math.round(parent.width / 1.7)
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
 
             Image {
-                id: moviesicon
+                id: moviesIcon
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 source: "qrc:/assets/icons/movies_.png"
             }
 
             MouseArea {
-                id: moviesiconmousearea
-                anchors.fill: moviesicon
+                id: moviesIconMousearea
+                anchors.fill: moviesIcon
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                onEntered: moviesiconrectangle.opacity = 1.0
-                onExited: moviesiconrectangle.opacity = 0.0
-                onClicked: [ clientInterfaceSwipeViewIndex = 0,
-                    mainview.replace("qrc:/Client.qml"), pagetitle.text = qsTr("Movies") ]
+                onEntered: moviesIconRectangle.opacity = 1.0
+                onExited: moviesIconRectangle.opacity = 0.0
+                onClicked: [clientInterfaceSwipeViewIndex = 0,
+                    mainView.goToPage(3)]
             }
 
             Image {
-                id: musicicon
-                anchors.left: moviesicon.right
-                anchors.leftMargin: width
+                id: seriesIcon
+                anchors.left: moviesIcon.right
+                anchors.leftMargin: 75
+                anchors.verticalCenter: parent.verticalCenter
+                source: "qrc:/assets/icons/series_.png"
+            }
+
+            MouseArea {
+                id: seriesIconMousearea
+                anchors.fill: seriesIcon
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onEntered: seriesIconRectangle.opacity = 1.0
+                onExited: seriesIconRectangle.opacity = 0.0
+                onClicked: [clientInterfaceSwipeViewIndex = 1,
+                    mainView.goToPage(3)]
+            }
+
+            Image {
+                id: musicIcon
+                anchors.left: seriesIcon.right
+                anchors.leftMargin: 75
                 anchors.verticalCenter: parent.verticalCenter
                 source: "qrc:/assets/icons/music_.png"
             }
 
             MouseArea {
-                anchors.fill: musicicon
+                anchors.fill: musicIcon
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                onEntered: musiciconrectangle.opacity = 1.0
-                onExited: musiciconrectangle.opacity = 0.0
-                onClicked: [ clientInterfaceSwipeViewIndex = 1,
-                    mainview.replace("qrc:/Client.qml"), pagetitle.text = qsTr("Music") ]
+                onEntered: musicIconRectangle.opacity = 1.0
+                onExited: musicIconRectangle.opacity = 0.0
+                onClicked: [clientInterfaceSwipeViewIndex = 2,
+                    mainView.goToPage(3)]
             }
 
             Image {
-                id: gamesicon
-                anchors.left: musicicon.right
-                anchors.leftMargin: width
+                id: gamesIcon
+                anchors.left: musicIcon.right
+                anchors.leftMargin: 75
                 anchors.verticalCenter: parent.verticalCenter
                 source: "qrc:/assets/icons/games_.png"
             }
 
             MouseArea {
-                anchors.fill: gamesicon
+                anchors.fill: gamesIcon
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                onEntered: gamesiconrectangle.opacity = 1.0
-                onExited: gamesiconrectangle.opacity = 0.0
-                onClicked: [ clientInterfaceSwipeViewIndex = 2,
-                    mainview.replace("qrc:/Client.qml"), pagetitle.text = qsTr("Games") ]
+                onEntered: gamesIconRectangle.opacity = 1.0
+                onExited: gamesIconRectangle.opacity = 0.0
+                onClicked: [clientInterfaceSwipeViewIndex = 3,
+                    mainView.goToPage(3)]
             }
-
         }
-
     }
 
     RowLayout {
@@ -96,7 +118,7 @@ Page {
             anchors.horizontalCenter: parent.horizontalCenter
 
             Rectangle {
-                id: moviesiconrectangle
+                id: moviesIconRectangle
                 anchors.bottom: parent.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width / 2
@@ -114,7 +136,25 @@ Page {
             }
 
             Rectangle {
-                id: musiciconrectangle
+                id: seriesIconRectangle
+                anchors.bottom: parent.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width / 2
+                height: 70
+                color: "transparent"
+                border.color: "#ababab"
+                opacity: 0.0
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: qsTr("Watch a series")
+                    font.pixelSize: 25
+                }
+            }
+
+            Rectangle {
+                id: musicIconRectangle
                 anchors.bottom: parent.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width / 2
@@ -132,7 +172,7 @@ Page {
             }
 
             Rectangle {
-                id: gamesiconrectangle
+                id: gamesIconRectangle
                 anchors.bottom: parent.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width / 2
@@ -148,46 +188,18 @@ Page {
                     font.pixelSize: 25
                 }
             }
-
-        }
-
-    }
-
-    Dialog {
-        id: logindialog
-
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-        width: parent.width / 2
-        parent: ApplicationWindow.overlay
-
-        focus: true
-        modal: true
-        title: "Modio Burn Login"
-        standardButtons: Dialog.Ok | Dialog.Cancel
-
-        ColumnLayout {
-            spacing: 20
-            anchors.fill: parent
-            Label {
-                elide: Label.ElideRight
-                text: "Please enter your credentials"
-                Layout.fillWidth: true
-            }
-            TextField {
-                id: username
-                focus: true
-                placeholderText: "Username"
-                Layout.fillWidth: true
-            }
-            TextField {
-                id: password
-                placeholderText: "Password"
-                echoMode: TextInput.Password
-                Layout.fillWidth: true
-            }
         }
     }
 
-    Component.onCompleted: [ pagetitle.text = qsTr("Welcome"), logindialog.open() ]
+    function whoAmI() {
+        return qsTr("Message from Home Page")
+    }
+    // called immediately after push()
+    function init() {
+        console.log(qsTr("Init done from Home Page"))
+    }
+    // called immediately after pop()
+    function cleanup() {
+        console.log(qsTr("Cleanup done from Home Page"))
+    }
 }

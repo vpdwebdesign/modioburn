@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<data>
+<series>
+    <title>Better Call Saul</title>
+    <season>One</season>
+    <stars>Bob Odenkirk, Jonathan Banks, Rhea Seehorn, Patrick Fabian, Michael Mando, Michael McKean, Giancarlo Esposito</stars>
+    <category>Crime drama, Black comedy</category>
+    <year>2015</year>
+    <thumb>qrc:/assets/posters/series/better_call_saul1.jpg</thumb>
+    <episode>
+    <number>01</number>
+    <title>Uno</title>
+    <year>Feb 8, 2015</year>
+    </episode>
+    <episode>
+    <number>02</number>
+    <title>Mijo</title>
+    <year>Feb 9, 2015</year>
+    </episode>
+    <episode>
+    <number>03</number>
+    <title>Nacho</title>
+    <year>Feb 16, 2015</year>
+    </episode>
+    <episode>
+    <number>04</number>
+    <title>Hero</title>
+    <year>Feb 23, 2015</year>
+    </episode>
+    <episode>
+    <number>05</number>
+    <title>Alpine Shepherd Boy</title>
+    <year>Mar 2, 2015</year>
+    </episode>
+    <episode>
+    <number>06</number>
+    <title>Five-O</title>
+    <year>Mar 9, 2015</year>
+    </episode>
+    <episode>
+    <number>07</number>
+    <title>Bingo</title>
+    <year>Mar 16, 2015</year>
+    </episode>
+    <episode>
+    <number>08</number>
+    <title>RICO</title>
+    <year>Mar 23, 2015</year>
+    </episode>
+    <episode>
+    <number>09</number>
+    <title>Pimento</title>
+    <year>Mar 30, 2015</year>
+    </episode>
+    <episode>
+    <number>10</number>
+    <title>Marco</title>
+    <year>Mar 23, 2015</year>
+    </episode>
+</series>
+
+<series>
+    <title>Breaking Bad</title>
+    <season>One</season>
+    <stars>Bryan Cranston, Anna Gunn, Aaron Paul, Dean Norris</stars>
+    <category>Crime drama, Thriller, Neo-Western, Black comedy</category>
+    <year>2008</year>
+    <thumb>qrc:/assets/posters/series/breaking_bad1.jpg</thumb>
+    <episode>
+    <number>01</number>
+    <title>Pilot</title>
+    <year>Jan 20, 2008</year>
+    </episode>
+    <episode>
+    <number>02</number>
+    <title>Cat's in the Bag...</title>
+    <year>Jan 27, 2008</year>
+    </episode>
+    <episode>
+    <number>03</number>
+    <title>...And the Bag's in the River</title>
+    <year>Feb 10, 2008</year>
+    </episode>
+    <episode>
+    <number>04</number>
+    <title>Cancer Man</title>
+    <year>Feb 17, 2008</year>
+    </episode>
+    <episode>
+    <number>05</number>
+    <title>Gray Matter</title>
+    <year>February 24, 2008</year>
+    </episode>
+    <episode>
+    <number>06</number>
+    <title>Crazy Handful of Nothin'</title>
+    <year>Mar 2, 2008</year>
+    </episode>
+    <episode>
+    <number>07</number>
+    <title>A No-Rough-Stuff-Type Deal</title>
+    <year>Mar 9, 2008</year>
+    </episode>
+</series>
+
+<series>
+    <title>Lost</title>
+    <season>One</season>
+    <stars>Naveen Andrews, Emilie de Ravin, Matthew Fox, Jorge Garcia</stars>
+    <category>Adventure, Mystery, Serial drama, Science fiction, Supernatural</category>
+    <year>2004-2005</year>
+    <thumb>qrc:/assets/posters/series/lost1.jpg</thumb>
+    <episode>
+    <number>01</number>
+    <title>Pilot (Part 1)</title>
+    <year>Sep 22, 2004</year>
+    </episode>
+    <episode>
+    <number>02</number>
+    <title>Pilot (Part 2)</title>
+    <year>Sep 29, 2004</year>
+    </episode>
+    <episode>
+    <number>03</number>
+    <title>Tabula Rasa</title>
+    <year>Oct 6, 2004</year>
+    </episode>
+    <episode>
+    <number>04</number>
+    <title>Walkabout</title>
+    <year>Oct 13, 2004</year>
+    </episode>
+    <episode>
+    <number>05</number>
+    <title>White Rabbit</title>
+    <year>Oct 20, 2004</year>
+    </episode>
+    <episode>
+    <number>06</number>
+    <title>House of the Rising Sun</title>
+    <year>Oct 27, 2004</year>
+    </episode>
+    <episode>
+    <number>07</number>
+    <title>The Moth</title>
+    <year>Nov 3, 2004</year>
+    </episode>
+    <episode>
+    <number>08</number>
+    <title>Confidence Man</title>
+    <year>Nov 10, 2004</year>
+    </episode>
+    <episode>
+    <number>09</number>
+    <title>Solitary</title>
+    <year>Nov 17, 2004</year>
+    </episode>
+    <episode>
+    <number>10</number>
+    <title>Raised by Another</title>
+    <year>Dec 1, 2004</year>
+    </episode>
+    <episode>
+    <number>11</number>
+    <title>All the Best Cowboys Have Daddy Issues</title>
+    <year>Dec 8, 2004</year>
+    </episode>
+    <episode>
+    <number>12</number>
+    <title>Whatever the Case May Be</title>
+    <year>Jan 5, 2005</year>
+    </episode>
+</series>
+
+<series>
+    <title>Supernatural</title>
+    <season>One</season>
+    <stars>Jared Padaleck, Jensen Ackles</stars>
+    <category>Horror, Fantasy, Action, Mystery, Drama</category>
+    <year>2005-2006</year>
+    <thumb>qrc:/assets/posters/series/supernatural1.jpg</thumb>
+    <episode>
+    <number>01</number>
+    <title>Pilot</title>
+    <year>Sep 13, 2005</year>
+    </episode>
+    <episode>
+    <number>02</number>
+    <title>Wendigo</title>
+    <year>Sep 20, 2005</year>
+    </episode>
+    <episode>
+    <number>03</number>
+    <title>Dead in the Water</title>
+    <year>Sep 27, 2005</year>
+    </episode>
+    <episode>
+    <number>04</number>
+    <title>Phantom Traveler</title>
+    <year>Oct 4, 2005</year>
+    </episode>
+    <episode>
+    <number>05</number>
+    <title>Bloody Mary</title>
+    <year>Oct 11, 2005</year>
+    </episode>
+    <episode>
+    <number>06</number>
+    <title>Skin</title>
+    <year>Oct 18, 2005</year>
+    </episode>
+    <episode>
+    <number>07</number>
+    <title>Hook Man</title>
+    <year>Oct 25, 2005</year>
+    </episode>
+    <episode>
+    <number>08</number>
+    <title>Bugs</title>
+    <year>Nov 8, 2005</year>
+    </episode>
+    <episode>
+    <number>09</number>
+    <title>Home</title>
+    <year>Nov 15, 2005</year>
+    </episode>
+    <episode>
+    <number>10</number>
+    <title>Asylum</title>
+    <year>Nov 22, 2005</year>
+    </episode>
+    <episode>
+    <number>11</number>
+    <title>Scarecrow</title>
+    <year>Jan 10, 2006</year>
+    </episode>
+    <episode>
+    <number>12</number>
+    <title>Faith</title>
+    <year>Jan 17, 2006</year>
+    </episode>
+</series>
+</data>

@@ -1,25 +1,63 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import "tools"
 
 Page {
+
+    property string pageTitle: qsTr("Music")
+
+    property int delegateHeight: 220
+    property int musicRectangleWidth: 160
+    property int musicRectangleHeight: delegateHeight - 20
+    property string musicRectangleColor: "transparent"
+    property real musicRectangleOpacity: 1.0
+    property int musicYearRectangleWidth: Math.round(musicRectangleWidth / 1.5)
+    property int musicFontSize: 16
+
+    RowLayout {
+        id: searchBarRow
+        width: parent.width
+        height: 80
+        SearchBar {
+            id: search
+            Layout.alignment: Qt.AlignHCenter
+            placeHolder: qsTr("Music title, artist, album, category or year")
+        }
+    }
+
+    Item {
+        id: sortBarRow
+        width: parent.width
+        height: 30
+        anchors.top: searchBarRow.bottom
+        SortBarMusic {
+        }
+
+    }
     ListView {
-        anchors.fill: parent
-        model: musicmodel
-        delegate: musicdelegate
+        id: musicView
+        clip: true
+        anchors.top: sortBarRow.bottom
+        anchors.topMargin: 20
+        anchors.right: parent.right
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        model: musicModel
+        delegate: musicDelegate
         ScrollBar.vertical: ScrollBar {
-            id: musicscrollbar
+            id: musicScrollbar
             active: true
             contentItem: Rectangle {
                 implicitWidth: 6
                 radius: width / 2
-                color: musicscrollbar.pressed ? "#607d8b" : "#a5b7c0"
+                color: musicScrollbar.pressed ? "#607d8b" : "#a5b7c0"
             }
         }
     }
 
     ListModel {
-        id: musicmodel
+        id: musicModel
         ListElement {
             title: qsTr("Paradise")
             artist: qsTr("Coldplay")
@@ -93,13 +131,13 @@ Page {
     }
 
     Component {
-        id: musicdelegate
+        id: musicDelegate
         Item {
             width: parent.width
-            height: 260
+            height: delegateHeight
 
             Image {
-                id: musicthumb
+                id: musicThumb
                 anchors.left: parent.left
                 anchors.leftMargin: 20
                 anchors.verticalCenter: parent.verticalCenter
@@ -107,116 +145,137 @@ Page {
             }
 
             MouseArea {
-                anchors.fill: musicthumb
+                anchors.fill: musicThumb
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                onClicked: notyet.open()
+                onClicked: notYet.open()
             }
 
 
             RowLayout {
-                id: musictitle
-                Layout.fillWidth: true
-                anchors.top: parent.top
-                anchors.topMargin: 20
-                anchors.left: musicthumb.right
+                height: parent.height
+                anchors.left: musicThumb.right
                 anchors.leftMargin: 30
-                Label {
-                    color: "#595959"
-                    text: title
-                    font.pixelSize: 30
+                spacing: 20
+
+                Rectangle {
+                    id: titleRectangle
+                    width: musicRectangleWidth
+                    height: musicRectangleHeight
+                    color: musicRectangleColor
+                    opacity: musicRectangleOpacity
+
+                    Text {
+                        anchors.centerIn: parent
+                        color: "#595959"
+                        text: title
+                        font.pixelSize: musicFontSize
+                        width: parent.width - 10
+                        wrapMode: Text.WordWrap
+                    }
+
+                }
+
+                Rectangle {
+                    id: artistRectangle
+                    width: musicRectangleWidth
+                    height: musicRectangleHeight
+                    color: musicRectangleColor
+                    opacity: musicRectangleOpacity
+
+                    Text {
+                        anchors.centerIn: parent
+                        color: "#595959"
+                        text: artist
+                        font.pixelSize: musicFontSize
+                        width: parent.width - 10
+                        wrapMode: Text.WordWrap
+                    }
+                }
+
+                Rectangle {
+                    id: albumRectangle
+                    width: musicRectangleWidth
+                    height: musicRectangleHeight
+                    color: musicRectangleColor
+                    opacity: musicRectangleOpacity
+
+                    Text {
+                        anchors.centerIn: parent
+                        color: "#595959"
+                        text: album
+                        font.pixelSize: musicFontSize
+                        width: parent.width - 10
+                        wrapMode: Text.WordWrap
+                    }
+                }
+
+                Rectangle {
+                    id: categoryRectangle
+                    width: musicRectangleWidth
+                    height: musicRectangleHeight
+                    color: musicRectangleColor
+                    opacity: musicRectangleOpacity
+
+                    Text {
+                        anchors.centerIn: parent
+                        color: "#595959"
+                        text: category
+                        font.pixelSize: musicFontSize
+                        width: parent.width - 10
+                        wrapMode: Text.WordWrap
+                    }
+                }
+
+                Rectangle {
+                    id: yearRectangle
+                    width: musicYearRectangleWidth
+                    height: musicRectangleHeight
+                    color: musicRectangleColor
+                    opacity: musicRectangleOpacity
+
+                    Text {
+                        anchors.centerIn: parent
+                        color: "#595959"
+                        text: year
+                        font.pixelSize: musicFontSize
+                        width: parent.width - 10
+                        wrapMode: Text.WordWrap
+                    }
                 }
             }
 
-            RowLayout {
-                id: musicartist
-                Layout.fillWidth: true
-                anchors.top: musictitle.bottom
-                anchors.topMargin: 20
-                anchors.left: musicthumb.right
-                anchors.leftMargin: 30
-                Label {
-                    color: "#333333"
-                    text: qsTr("Artist: ") + artist
-                    font.pixelSize: 15
-                }
-            }
+            ColumnLayout {
+                anchors.right: parent.right
+                anchors.rightMargin: 30
+                height: delegateHeight
 
-            RowLayout {
-                id: musicalbum
-                Layout.fillWidth: true
-                anchors.top: musicartist.bottom
-                anchors.topMargin: 20
-                anchors.left: musicthumb.right
-                anchors.leftMargin: 30
-                Label {
-                    color: "#333333"
-                    text: qsTr("Album: ") + album
-                    font.pixelSize: 15
-                }
-            }
-
-            RowLayout {
-                id: musiccategory
-                Layout.fillWidth: true
-                anchors.top: musicalbum.bottom
-                anchors.topMargin: 20
-                anchors.left: musicthumb.right
-                anchors.leftMargin: 30
-                Label {
-                    color: "#333333"
-                    text: qsTr("Category: ") + category
-                    font.pixelSize: 15
-                }
-            }
-
-            RowLayout {
-                id: musicyear
-                Layout.fillWidth: true
-                anchors.top: musiccategory.bottom
-                anchors.topMargin: 20
-                anchors.left: musicthumb.right
-                anchors.leftMargin: 30
-                Label {
-                    color: "#333333"
-                    text: qsTr("Year: ") + year
-                    font.pixelSize: 15
-                }
-            }
-
-            RowLayout {
-                id: musicduration
-                Layout.fillWidth: true
-                anchors.right: buttons.left
-                anchors.rightMargin: 20
-                anchors.verticalCenter: buttons.verticalCenter
                 Label {
                     background: Rectangle {
                               color: "transparent"
                               border.color: "#cccccc"
                     }
+                    anchors.horizontalCenter: parent.horizontalCenter
                     color: "#333333"
                     padding: 10
-                    text: qsTr("Duration: ") + duration
-                    font.pixelSize: 15
+                    text: duration
+                    font.pixelSize: musicFontSize
                 }
-            }
 
-            RowLayout {
-                id: buttons
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 20
-                anchors.right: parent.right
-                anchors.rightMargin: 40
-                  Button {
-                      text: "Sample"
-                      onClicked: notyet.open()
-                  }
-                  Button {
-                      text: "Buy"
-                      onClicked: notyet.open()
-                  }
-              }
+                RowLayout {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    Button {
+                        text: "Sample"
+                        onClicked: notYet.open()
+                    }
+                    Button {
+                        text: "Buy"
+                        onClicked: notYet.open()
+                    }
+
+                }
+
+            }
 
             Rectangle {
                 anchors.left: parent.left

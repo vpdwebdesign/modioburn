@@ -5,12 +5,9 @@
         <file>Music.qml</file>
         <file>Games.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>main.cpp</file>
         <file>assets/icons/games.png</file>
         <file>assets/icons/movies.png</file>
         <file>assets/icons/music.png</file>
-        <file>MyDelegate.qml</file>
-        <file>assets/icons/next.png</file>
         <file>assets/icons/help.png</file>
         <file>assets/icons/logout.png</file>
         <file>assets/icons/notifications.png</file>
@@ -35,12 +32,33 @@
         <file>assets/albumart/nataliegrant.jpg</file>
         <file>assets/albumart/sanctusreal.jpg</file>
         <file>assets/icons/cart1.png</file>
-        <file>functions.js</file>
         <file>assets/icons/user.png</file>
         <file>Home.qml</file>
         <file>assets/icons/games_.png</file>
         <file>assets/icons/music_.png</file>
         <file>assets/icons/movies_.png</file>
         <file>Client.qml</file>
+        <file>Login.qml</file>
+        <file>assets/icons/logo.png</file>
+        <file>tools/MainToolBar.qml</file>
+        <file>tools/SearchBar.qml</file>
+        <file>assets/icons/sort_down.png</file>
+        <file>assets/icons/search.png</file>
+        <file>assets/icons/sort_up.png</file>
+        <file>tools/SortBarMovies.qml</file>
+        <file>tools/SortBarMusic.qml</file>
+        <file>Series.qml</file>
+        <file>tools/functions.js</file>
+        <file>assets/icons/logo2.png</file>
+        <file>assets/icons/series_.png</file>
+        <file>assets/icons/series.png</file>
+        <file>tools/SortBarSeries.qml</file>
+        <file>series.xml</file>
+        <file>assets/posters/series/better_call_saul1.jpg</file>
+        <file>assets/posters/series/breaking_bad1.jpg</file>
+        <file>assets/posters/series/lost1.jpg</file>
+        <file>assets/posters/series/supernatural1.jpg</file>
+        <file>assets/posters/loginbg.jpg</file>
+        <file>Attendant.qml</file>
     </qresource>
 </RCC>
