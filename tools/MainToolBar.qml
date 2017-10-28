@@ -8,12 +8,44 @@ ToolBar {
     id: mainToolBar
 
     property alias currentPageTitle: toolBarTitle.text
-
+    property int totalNotifications: userAccessLevel
     Material.foreground: "white"
 
     RowLayout {
         anchors.fill: parent
         spacing: 5
+
+        ToolButton {
+            id: back
+            contentItem: Image {
+                fillMode: Image.Pad
+                source: "qrc:/assets/icons/back.png"
+            }
+            visible: loggedIn && (mainView.depth > 2)
+            enabled: loggedIn && (mainView.depth > 2)
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Back")
+            onClicked: function() {
+                away = false;
+                mainView.pop();
+            }
+        }
+
+//        ToolButton {
+//            id: home
+//            contentItem: Image {
+//                fillMode: Image.Pad
+//                source: "qrc:/assets/icons/home.png"
+//            }
+//            visible: loggedIn && switchedRoles
+//            enabled: loggedIn && switchedRoles
+//            ToolTip.visible: hovered
+//            ToolTip.text: qsTr("Home")
+//            onClicked: function() {
+//                switchedRoles = false;
+//                mainView.pop();
+//            }
+//        }
 
         ToolButton {
             id: help
@@ -48,11 +80,21 @@ ToolBar {
                 fillMode: Image.Pad
                 source: "qrc:/assets/icons/notifications.png"
             }
-            opacity: loggedIn ? 1.0 : 0.0
+            visible: loggedIn
             enabled: loggedIn
             ToolTip.visible: hovered
-            ToolTip.text: qsTr("Notifications (0)")
-            onClicked: notYet.open()
+            ToolTip.text: qsTr("Notifications")
+            onClicked: notificationsDialog.open()
+        }
+
+        NotificationIcon {
+            id: notificationsFlasher
+            x: notifications.x + (notifications.width - 10)
+            y: notifications.y + Math.round(notifications.height / 3)
+            z: 1
+            opacity: notifications.enabled ? 1.0 : 0.0
+            iconSize: 20
+            notificationNum: String(totalNotifications)
         }
 
         ToolButton {
@@ -61,16 +103,29 @@ ToolBar {
                 fillMode: Image.Pad
                 source: "qrc:/assets/icons/cart.png"
             }
-            opacity: loggedIn ? 1.0 : 0.0
-            enabled: loggedIn
+            visible: loggedIn && ((userRole.toLowerCase() === "customer") || (selectedRole.toLowerCase() === "customer"))
+            enabled: loggedIn && ((userRole.toLowerCase() === "customer") || (selectedRole.toLowerCase() === "customer"))
             ToolTip.visible: hovered
-            ToolTip.text: qsTr("Shopping Cart (Empty)")
+            ToolTip.text: qsTr("Shopping Cart")
+            onClicked: notYet.open()
+        }
+
+        ToolButton {
+            id: systemStatusButton
+            contentItem: Image {
+                fillMode: Image.Pad
+                source: "qrc:/assets/icons/system2.png"
+            }
+            visible: loggedIn && (userRole != "customer") && (userRole != "super-administrator")
+            enabled: loggedIn && (userRole != "customer") && (userRole != "super-administrator")
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Check system status")
             onClicked: notYet.open()
         }
 
         Label {
             id: toolBarTitle
-            font.pixelSize: 20
+            font.pixelSize: 30
             text: "Modio Burn"
             elide: Label.ElideRight
             horizontalAlignment: Qt.AlignHCenter
@@ -79,13 +134,37 @@ ToolBar {
         }
 
         ToolButton {
+            id: roleDisplay
+
+            contentItem: Text {
+                id: roleDisplayText
+                font.pixelSize: 12
+                text: userRole.toUpperCase()
+                color: "#2e2f30"
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideRight
+            }
+
+            background: Rectangle {
+                implicitWidth: 80
+                implicitHeight: 20
+                radius: 15
+                color: "white"
+            }
+
+            visible: loggedIn && (userRole != "customer")
+            enabled: loggedIn && (userRole != "customer")
+        }
+
+        ToolButton {
             id: timer
             contentItem: Image {
                 fillMode: Image.Pad
                 source: "qrc:/assets/icons/timer.png"
             }
-            opacity: loggedIn ? 1.0 : 0.0
-            enabled: loggedIn
+            visible: loggedIn && (userRole == "customer")
+            enabled: loggedIn && (userRole == "customer")
             ToolTip.visible: hovered
             ToolTip.text: qsTr("Cost: Ksh ") + Js.getCost()
             onClicked: timerDetails.open()
@@ -116,7 +195,7 @@ ToolBar {
                 fillMode: Image.Pad
                 source: "qrc:/assets/icons/user.png"
             }
-            opacity: loggedIn ? 1.0 : 0.0
+            visible: loggedIn
             enabled: loggedIn
             ToolTip.visible: hovered
             ToolTip.text: qsTr("User Account")
@@ -133,11 +212,28 @@ ToolBar {
                     onTriggered: notYet.open()
                 }
                 MenuItem {
-                    text: "Logout"
+                    text: "Logout (" + userName + ")"
                     onTriggered: logoutDialog.open()
                 }
             }
         }
+
+        ToolButton {
+            id: shutdownButton
+            contentItem: Image {
+                fillMode: Image.Pad
+                source: "qrc:/assets/icons/power.png"
+            }
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Shut Down Modio Burn")
+            onClicked: function() {
+                shutdownDialog.open()
+            }
+
+            visible: loggedIn && (userRole != "customer")
+            enabled: loggedIn && (userRole != "customer")
+        }
+
 
         ToolSeparator {
             opacity: loggedIn ? 1.0 : 0.0
@@ -171,6 +267,41 @@ ToolBar {
                 onTriggered: timerText.text = Js.getTime()
             }
         }
+    }
+
+    Dialog {
+        id: notificationsDialog
+
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        width: 350
+        height: 200
+        parent: ApplicationWindow.overlay
+
+        modal: true
+        title: "Notifications"
+        standardButtons: Dialog.Close
+
+        Row {
+            id: upperRow
+            width: parent.width
+            anchors.top: parent.top
+            spacing: 20
+
+            Label {
+                font.pixelSize: 15
+                text: "You have " + String(totalNotifications) + " new notifications"
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            Button {
+                text: "View"
+                anchors.verticalCenter: parent.verticalCenter
+                enabled: (totalNotifications > 0)
+                onClicked: notYet.open()
+            }
+        }
+
     }
 
     Dialog {
@@ -209,3 +340,4 @@ ToolBar {
         }
     }
 }
+

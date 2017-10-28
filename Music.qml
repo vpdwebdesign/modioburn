@@ -1,19 +1,32 @@
 import QtQuick 2.9
+import QtMultimedia 5.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.2
+
 import "tools"
 
 Page {
 
+    Material.theme: Material.Light
+
     property string pageTitle: qsTr("Music")
 
     property int delegateHeight: 220
-    property int musicRectangleWidth: 160
+    property int musicRectangleWidth: 150
     property int musicRectangleHeight: delegateHeight - 20
     property string musicRectangleColor: "transparent"
     property real musicRectangleOpacity: 1.0
     property int musicYearRectangleWidth: Math.round(musicRectangleWidth / 1.5)
     property int musicFontSize: 16
+
+    property string musicToPlayUrl
+    property string musicAlbumArtUrl
+    property string musicTitle
+    property string musicAlbum
+    property string musicCategory
+    property string musicReleaseYear
+    property string musicPlayStatus
 
     RowLayout {
         id: searchBarRow
@@ -66,7 +79,7 @@ Page {
             year: qsTr("2011")
             duration: qsTr("4 minutes 37 seconds")
             thumb: "qrc:/assets/albumart/coldplay_mx.jpg"
-            fullimage: qsTr("qrc:/assets/albumart/coldplay_mx.jpg")
+            url: "file:/home/vpd/projects/qt/modioburn/assets/music/paradise.m4a"
         }
         ListElement {
             title: qsTr("Viva La Vida")
@@ -76,7 +89,7 @@ Page {
             year: qsTr("2008")
             duration: qsTr("4 minutes 1 second")
             thumb: "qrc:/assets/albumart/coldplay_vlv.jpg"
-            fullimage: qsTr("qrc:/assets/albumart/coldplay_vlv.jpg")
+            url: "file:/home/vpd/projects/qt/modioburn/assets/music/viva la vida.m4a"
         }
         ListElement {
             title: qsTr("Wavin' Flag")
@@ -86,7 +99,7 @@ Page {
             year: qsTr("2010")
             duration: qsTr("3 minutes 32 seconds")
             thumb: "qrc:/assets/albumart/knaan.jpg"
-            fullimage: qsTr("qrc:/assets/albumart/knaan.jpg")
+            url: "file:/home/vpd/projects/qt/modioburn/assets/music/wavin' flag.m4a"
         }
         ListElement {
             title: qsTr("Your Great Name")
@@ -96,7 +109,7 @@ Page {
             year: qsTr("2010")
             duration: qsTr("6 minutes 1 second")
             thumb: "qrc:/assets/albumart/nataliegrant.jpg"
-            fullimage: qsTr("qrc:/assets/albumart/nataliegrant.jpg")
+            url: "file:/home/vpd/projects/qt/modioburn/assets/music/your great name.m4a"
         }
         ListElement {
             title: qsTr("You Found Me")
@@ -106,7 +119,7 @@ Page {
             year: qsTr("2009")
             duration: qsTr("4 minutes 3 seconds")
             thumb: "qrc:/assets/albumart/fray.jpg"
-            fullimage: qsTr("qrc:/assets/albumart/fray.jpg")
+            url: "file:/home/vpd/projects/qt/modioburn/assets/music/you found me.m4a"
         }
         ListElement {
             title: qsTr("Broken (New Version)")
@@ -116,7 +129,7 @@ Page {
             year: qsTr("2007")
             duration: qsTr("4 minutes 15 seconds")
             thumb: "qrc:/assets/albumart/lifehouse.jpg"
-            fullimage: qsTr("qrc:/assets/albumart/lifehouse.jpg")
+            url: "file:/home/vpd/projects/qt/modioburn/assets/music/broken.m4a"
         }
         ListElement {
             title: qsTr("Forgiven")
@@ -126,7 +139,7 @@ Page {
             year: qsTr("2010")
             duration: qsTr("3 minutes 35 seconds")
             thumb: "qrc:/assets/albumart/sanctusreal.jpg"
-            fullimage: qsTr("qrc:/assets/albumart/sanctusreal.jpg")
+            url: "file:/home/vpd/projects/qt/modioburn/assets/music/forgiven.m4a"
         }
     }
 
@@ -265,6 +278,19 @@ Page {
                 RowLayout {
                     anchors.horizontalCenter: parent.horizontalCenter
                     Button {
+                        text: "Play"
+                        onClicked: function() {
+                            musicAlbumArtUrl = thumb;
+                            musicToPlayUrl = url;
+                            musicTitle = title;
+                            musicAlbum = album;
+                            musicCategory = category;
+                            musicReleaseYear = year;
+
+                            musicPlayerDialog.open();
+                        }
+                    }
+                    Button {
                         text: "Sample"
                         onClicked: notYet.open()
                     }
@@ -286,5 +312,217 @@ Page {
             }
         }
 
+    }
+
+    Dialog {
+        id: musicPlayerDialog
+        x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+        width: 640
+        height: 400
+        header: RowLayout {
+            width: parent.width
+            height: 40
+            Label {
+                id: musicPlayerTitle
+                anchors.centerIn: parent
+                Layout.fillWidth: true
+                font.pixelSize: 20
+                color: "#c5c5c5"
+                text: "Modio Burn Audio Player"
+            }
+
+            Button {
+                anchors.right: parent.right
+                anchors.rightMargin: 20
+                text: "Exit"
+                onClicked: musicPlayerDialog.close()
+            }
+
+        }
+
+        RowLayout {
+            anchors.fill: parent
+            Item {
+                width: parent.width - 20
+                height: parent.height - 20
+                anchors.centerIn: parent
+
+                Image {
+                    id: musicAlbumArt
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    source: musicAlbumArtUrl
+                    fillMode: Image.Pad
+                }
+
+                ColumnLayout {
+                    height: musicAlbumArt.implicitHeight
+                    width: parent.width - musicAlbumArt.implicitWidth
+                    anchors.left: musicAlbumArt.right
+                    anchors.leftMargin: 20
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    Label {
+                        font.pixelSize: 20
+                        text: "\" " + musicTitle + " \""
+                    }
+
+                    Label {
+                        text: "Album: " + musicAlbum
+                    }
+
+                    Label {
+                        text: "Genre: " + musicCategory
+                    }
+
+                    Label {
+                        text: "Released: " + musicReleaseYear
+                    }
+
+                    Label {
+                        font.pixelSize: 17
+                        color: musicPlayStatus.toLowerCase() === "playing" ? "#a7e3ef" : "orange"
+                        text: "Status: " + musicPlayStatus
+                    }
+                }
+
+                ProgressBar {
+                    width: parent.width - 20
+                    height: 10
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 30
+                    anchors.left: parent.left
+                    anchors.leftMargin: 20
+                    anchors.right: parent.right
+                    anchors.rightMargin: 20
+                    value: musicPlayer.position / musicPlayer.duration
+                }
+            }
+        }
+
+        footer: RowLayout {
+            width: parent.width
+            height: 80
+            Rectangle {
+                width: Math.round(parent.width / 2)
+                height: parent.height - 20
+                radius: 40.0
+                color: "transparent"
+                border.color: "#c5c5c5"
+                anchors.centerIn: parent
+
+
+                Item {
+                    height: 40
+                    width: 230
+                    anchors.centerIn: parent
+
+                    Image {
+                        id: rewindButton
+                        anchors.left: parent.left
+                        source: "qrc:/assets/icons/media/rewind.png"
+                        fillMode: Image.Pad
+                        opacity: 0.5
+
+                        MouseArea {
+                            id: rewindButtonMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: rewindButton.opacity = 1.0
+                            onExited: rewindButton.opacity = 0.5
+                            onClicked: musicPlayer.seek(musicPlayer.position - 5000)
+                        }
+                    }
+
+                    Image {
+                        id: playPauseButton
+                        anchors.left: rewindButton.right
+                        anchors.leftMargin: 20
+                        source: musicPlayer.playbackState == Audio.PlayingState ? "qrc:/assets/icons/media/pause.png" : "qrc:/assets/icons/media/play.png"
+                        fillMode: Image.Pad
+                        opacity: 0.5
+
+                        MouseArea {
+                            id: playPauseButtonMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: playPauseButton.opacity = 1.0
+                            onExited: playPauseButton.opacity = 0.5
+                            onClicked: function() {
+                                if (musicPlayer.playbackState == Audio.PlayingState) {
+                                    musicPlayer.pause();
+                                     musicPlayStatus = "Paused";
+                                } else {
+                                     musicPlayer.play();
+                                     musicPlayStatus = "Playing";
+                                }
+                           }
+                        }
+                    }
+
+                    Image {
+                        id: stopButton
+                        anchors.left: playPauseButton.right
+                        anchors.leftMargin: 20
+                        source: "qrc:/assets/icons/media/stop.png"
+                        fillMode: Image.Pad
+                        opacity: 0.5
+
+                        MouseArea {
+                            id: stopButtonMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: stopButton.opacity = 1.0
+                            onExited: stopButton.opacity = 0.5
+                            onClicked: function() {
+                                musicPlayer.stop();
+                                musicPlayStatus = "Stopped";
+                           }
+                        }
+                    }
+
+                    Image {
+                        id: fastForwadButton
+                        anchors.left: stopButton.right
+                        anchors.leftMargin: 20
+                        source: "qrc:/assets/icons/media/fastforward.png"
+                        fillMode: Image.Pad
+                        opacity: 0.5
+
+                        MouseArea {
+                            id: fastForwardButtonMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: fastForwadButton.opacity = 1.0
+                            onExited: fastForwadButton.opacity = 0.5
+                            onClicked: musicPlayer.seek(musicPlayer.position + 5000)
+                        }
+                    }
+                }
+            }
+        }
+
+        onOpened: function() {
+            musicPlayer.play();
+            if (musicPlayer.playbackState == Audio.PlayingState) {
+                musicPlayStatus = "Playing";
+            } else if (musicPlayer.playbackState == Audio.PausedState) {
+                musicPlayStatus = "Paused";
+            } else {
+                musicPlayStatus = "Unknown";
+            }
+        }
+
+        onClosed: function() {
+            musicPlayer.stop();
+            musicPlayStatus = "Stopped";
+            }
+
+        Audio {
+            id: musicPlayer
+            source: musicToPlayUrl
+        }
     }
 }

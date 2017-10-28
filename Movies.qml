@@ -1,14 +1,18 @@
 import QtQuick 2.9
+import QtMultimedia 5.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.2
 import "tools"
 
 Page {
 
+    Material.theme: Material.Light
+
     property string pageTitle: qsTr("Movies")
 
     property int delegateHeight: 220
-    property int movieRectangleWidth: 170
+    property int movieRectangleWidth: 160
     property int movieRectangleHeight: delegateHeight - 20
     property string movieRectangleColor: "transparent"
     property real movieRectangleOpacity: 1.0
@@ -67,7 +71,7 @@ Page {
             category: qsTr("Horror, Science Fiction")
             year: qsTr("2017")
             thumb: "qrc:/assets/posters/darktower_thumb.jpg"
-            fullimage: qsTr("qrc:/assets/posters/darktower.jpg")
+            url: "file:/media/vpd/MEDIA/Movies/The.Great.Wall.2016.HC.HDRip.XviD.AC3-EVO.avi"
         }
         ListElement {
             title: qsTr("Annabelle 2: Creation")
@@ -76,7 +80,7 @@ Page {
             category: qsTr("Horror")
             year: qsTr("Coming Soon")
             thumb: "qrc:/assets/posters/annabelle2_thumb.jpg"
-            fullimage: qsTr("qrc:/assets/posters/annabelle2.jpg")
+            url: "file:/media/vpd/MEDIA/Movies/Annabelle.Creation.2017.HC.HDRip.XviD.AC3-EVO.avi"
         }
         ListElement {
             title: qsTr("The Emoji Movie")
@@ -85,7 +89,7 @@ Page {
             category: qsTr("Animation, Comedy")
             year: qsTr("2017")
             thumb: "qrc:/assets/posters/emojimovie_thumb.jpg"
-            fullimage: qsTr("qrc:/assets/posters/emojimovie.jpg")
+            url: "file:/media/vpd/MEDIA/Movies/Kung.Fu.Panda.3.2016.BRRip.XViD-ETRG.avi"
         }
         ListElement {
             title: qsTr("Miss Peregrine's Home For Peculiar Children")
@@ -94,7 +98,7 @@ Page {
             category: qsTr("Horror, Science Fiction")
             year: qsTr("2017")
             thumb: "qrc:/assets/posters/mphpc_thumb.jpg"
-            fullimage: qsTr("qrc:/assets/posters/mphpc_thumb.jpg")
+            url: "file:/media/vpd/MEDIA/Movies/Miss.Peregrines.Home.for.Peculiar.Children.2016.720p.BRRip.x264.AAC-ETRG.mp4"
         }
         ListElement {
             title: qsTr("The Nut Job 2: Nutty By Nature")
@@ -103,7 +107,7 @@ Page {
             category: qsTr("Animation, Comedy")
             year: qsTr("2017")
             thumb: "qrc:/assets/posters/nutjob2_thumb.jpg"
-            fullimage: qsTr("qrc:/assets/posters/nutjob2.jpg")
+            url: "file:/media/vpd/MEDIA/Movies/Sing.2016.HDRip.XViD-ETRG.avi"
         }
     }
 
@@ -228,6 +232,10 @@ Page {
                 anchors.right: parent.right
                 anchors.rightMargin: 40
                 spacing: 10
+                Button {
+                    text: "Watch"
+                    onClicked: moviePlayerDialog.open()
+                }
                   Button {
                       text: "Trailer"
                       onClicked: notYet.open()
@@ -248,5 +256,103 @@ Page {
             }
         }
 
+    }
+
+    Dialog {
+        id: videoPlayerDialog
+        x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+        width: 980
+        height: 540
+        header: RowLayout {
+            width: parent.width
+            height: 30
+            Label {
+                id: videoPlayerTitle
+                anchors.centerIn: parent
+                font.pixelSize: 20
+                color: "#c5c5c5"
+                text: "Modio Burn Video Player"
+            }
+        }
+
+        footer: RowLayout {
+            width: parent.width
+            height: 80
+            Rectangle {
+                width: parent.width - 20
+                height: parent.height - 20
+                color: "transparent"
+                border.color: "#c5c5c5"
+                anchors.centerIn: parent
+
+
+                Item {
+                    height: 40
+                    width: 150
+                    anchors.centerIn: parent
+
+                    Image {
+                        id: rewindButton
+                        anchors.left: parent.left
+                        source: "qrc:/assets/icons/media/rewind.png"
+                        fillMode: Image.Pad
+                        opacity: 0.5
+
+                        MouseArea {
+                            id: rewindButtonMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: rewindButton.opacity = 1.0
+                            onExited: rewindButton.opacity = 0.5
+                            onClicked: videoPlayer.seek(videoPlayer.position - 5000)
+                        }
+                    }
+
+                    Image {
+                        id: playPauseButton
+                        anchors.left: rewindButton.right
+                        anchors.leftMargin: 20
+                        source: videoPlayer.playbackState == Audio.PlayingState ? "qrc:/assets/icons/media/pause.png" : "qrc:/assets/icons/media/play.png"
+                        fillMode: Image.Pad
+                        opacity: 0.5
+
+                        MouseArea {
+                            id: playPauseButtonMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: playPauseButton.opacity = 1.0
+                            onExited: playPauseButton.opacity = 0.5
+                            onClicked: videoPlayer.playbackState == Audio.PlayingState ? videoPlayer.pause() : videoPlayer.play()
+                        }
+                    }
+
+                    Image {
+                        id: fastForwadButton
+                        anchors.left: playPauseButton.right
+                        anchors.leftMargin: 20
+                        source: "qrc:/assets/icons/media/fastforward.png"
+                        fillMode: Image.Pad
+                        opacity: 0.5
+
+                        MouseArea {
+                            id: fastForwardButtonMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: fastForwadButton.opacity = 1.0
+                            onExited: fastForwadButton.opacity = 0.5
+                            onClicked: videoPlayer.seek(videoPlayer.position + 5000)
+                        }
+                    }
+                }
+            }
+        }
+        onOpened: videoPlayer.play()
+        onClosed: videoPlayer.stop()
+
+        Video {
+            id: videoPlayer
+            anchors.fill: parent
+        }
     }
 }

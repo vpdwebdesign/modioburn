@@ -8,7 +8,7 @@ Item {
 
     Image {
         id: searchIcon
-        source: "qrc:/assets/icons/search.png"
+        source: "qrc:/assets/icons/search_dark.png"
         anchors.right: searchBar.left
         anchors.rightMargin: 5
         anchors.verticalCenter: searchBar.verticalCenter

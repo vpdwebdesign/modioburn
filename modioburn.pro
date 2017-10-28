@@ -30,5 +30,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    functions.js \
-    assets/icons/user.png
+    functions.js

@@ -9,7 +9,7 @@ RowLayout {
     anchors.leftMargin: 185
     spacing: 20
 
-    property int rectangleWidth: 170
+    property int rectangleWidth: 160
     property int rectangleHeight: parent.height
     property int yearRectangleWidth: Math.round(rectangleWidth / 1.5)
     property string rectangleColor: "#607d8b"

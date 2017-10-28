@@ -69,19 +69,6 @@ Page {
             onClicked: clientInterfaceSwipeViewIndex = 3
         }
     }
-
-    function whoAmI() {
-        return qsTr("Message from Client Page")
-    }
-    // called immediately after push()
-    function init() {
-        console.log(qsTr("Init done from Client Page"))
-    }
-    // called immediately after pop()
-    function cleanup() {
-        console.log(qsTr("Cleanup done from Client Page"))
-    }
-
 }
 
 

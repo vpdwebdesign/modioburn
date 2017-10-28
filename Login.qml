@@ -24,6 +24,7 @@ Page {
 
         Rectangle {
             anchors.fill: parent
+            color: "#2e2f30"
             opacity: 0.9
 
 
@@ -52,7 +53,7 @@ Page {
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
                     font.pixelSize: 25
-                    color: "#595959"
+                    color: "#e0e0e0"
                     text: "Login"
                 }
             }
@@ -79,6 +80,9 @@ Page {
                     anchors.rightMargin: 5
                     Layout.fillWidth: true
                     placeholderText: "Enter your name or phone number"
+                    selectByMouse: true
+                    focus: true
+                    onAccepted: passwordTextField.focus = true
                 }
             }
             RowLayout {
@@ -104,6 +108,44 @@ Page {
                     Layout.fillWidth: true
                     echoMode: TextInput.Password
                     placeholderText: "Enter your password"
+                    selectByMouse: true
+                    onAccepted: function() {
+                        var enteredName = (usernameTextField.text).toLowerCase();
+                        var enteredPassword = passwordTextField.text;
+
+                        if (enteredName.length > 0 && enteredPassword.length > 0) {
+                            if (mbUsers.hasOwnProperty(enteredName) && mbUsers[enteredName].pwd === enteredPassword) {
+                                userName = usernameTextField.text;
+                                userRole = mbUsers[enteredName].role;
+                                userAccessLevel = mbUsers[enteredName].accesslevel;
+                                loggedIn = true;
+                                usernameTextField.clear();
+                                passwordTextField.clear();
+
+                                if (userRole === "customer") {
+                                    mainView.push("CustomerHome.qml");
+                                } else if (userRole === "attendant") {
+                                    mainView.push("AttendantHome.qml");
+                                } else if (userRole === "manager") {
+                                    mainView.push("ManagerHome.qml");
+                                } else if (userRole === "administrator") {
+                                    mainView.push("AdministratorHome.qml");
+                                } else if (userRole === "super-administrator") {
+                                    mainView.push("SuperAdministratorHome.qml");
+                                } else {
+                                    loggedIn = false;
+                                    noSuchRoleDialog.open();
+                                    mainView.push(null);
+                                }
+                            } else {
+                                noSuchUserDialog.open();
+                                loggedIn = false;
+                            }
+                        } else {
+                            emptyFieldsDialog.open();
+                            loggedIn = false;
+                        }
+                    }
                 }
             }
 
@@ -122,7 +164,11 @@ Page {
                     anchors.right: okButton.left
                     anchors.rightMargin: 5
                     Layout.fillWidth: true
-                    onClicked: [usernameTextField.clear(), passwordTextField.clear()]
+                    onClicked: function() {
+                        usernameTextField.clear();
+                        passwordTextField.clear();
+                        usernameTextField.focus = true;
+                    }
                 }
 
                 Button {
@@ -131,18 +177,40 @@ Page {
                     anchors.right: parent.right
                     anchors.rightMargin: 5
                     Layout.fillWidth: true
-                    onClicked: {
-                        if (usernameTextField.text.length == 0 ||
-                            passwordTextField.text.length == 0) {
-                            errorDialog.open();
-                        }
-                        else {
-                            loggedIn = true;
-                            userName = usernameTextField.text;
-                            mainView.goToPage(2);
+                    onClicked: function() {
+                        var enteredName = (usernameTextField.text).toLowerCase();
+                        var enteredPassword = passwordTextField.text;
 
-                            usernameTextField.clear();
-                            passwordTextField.clear();
+                        if (enteredName.length > 0 && enteredPassword.length > 0) {
+                            if (mbUsers.hasOwnProperty(enteredName) && mbUsers[enteredName].pwd === enteredPassword) {
+                                userName = usernameTextField.text;
+                                userRole = mbUsers[enteredName].role;
+                                userAccessLevel = mbUsers[enteredName].accesslevel;
+                                loggedIn = true;
+                                usernameTextField.clear();
+                                passwordTextField.clear();
+
+                                if (userRole == "customer") {
+                                    mainView.push("CustomerHome.qml");
+                                } else if (userRole == "attendant") {
+                                    mainView.push("AttendantHome.qml");
+                                } else if (userRole == "manager") {
+                                    mainView.push("ManagerHome.qml");
+                                } else if (userRole == "administrator") {
+                                    mainView.push("AdministratorHome.qml");
+                                } else {
+                                    loggedIn = false;
+                                    noSuchRoleDialog.open();
+                                    mainView.push(null);
+                                }
+                            } else {
+                                noSuchUserDialog.open();
+                                loggedIn = false;
+
+                            }
+                        } else {
+                            emptyFieldsDialog.open();
+                            loggedIn = false;
                         }
                     }
                 }
@@ -151,8 +219,9 @@ Page {
         }
     }
 
+
     Dialog {
-        id: errorDialog
+        id: emptyFieldsDialog
         x: login.x
         y: login.y + login.height - 80
         width: login.width
@@ -165,16 +234,32 @@ Page {
         standardButtons: Dialog.Close
     }
 
-    function whoAmI() {
-        return qsTr("Message from Login Page")
+    Dialog {
+        id: noSuchRoleDialog
+        x: login.x
+        y: login.y + login.height - 80
+        width: login.width
+        modal: true
+        focus: true
+        title: qsTr("Error!")
+        Label {
+            text: qsTr("Only customers, attendants, managers and administrators accepted for now.")
+        }
+        standardButtons: Dialog.Close
     }
-    // called immediately after push()
-    function init() {
-        console.log(qsTr("Init done from Login Page"))
-    }
-    // called immediately after pop()
-    function cleanup() {
-        console.log(qsTr("Cleanup done from Login Page"))
+
+    Dialog {
+        id: noSuchUserDialog
+        x: login.x
+        y: login.y + login.height - 80
+        width: login.width
+        modal: true
+        focus: true
+        title: qsTr("Error!")
+        Label {
+            text: qsTr("Wrong credentials entered. Please try again.")
+        }
+        standardButtons: Dialog.Close
     }
 }
 

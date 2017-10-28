@@ -1,11 +1,14 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.2
 import QtQuick.XmlListModel 2.0
 
 import "tools"
 
 Page {
+
+    Material.theme: Material.Light
 
     property string pageTitle: qsTr("Series")
 
@@ -240,7 +243,7 @@ Page {
         x: parent.x + 50
         y: parent.y + 50
         width: parent.width - 100
-        height: parent.height - 50
+        height: parent.height - 100
         modal: true
         standardButtons: Dialog.Close
 
@@ -376,11 +379,12 @@ Page {
                         id: episodeNumberRectangle
                         width: 100
                         height: 70
+                        color: "transparent"
 
                         Text {
                             id: episodeNumber
                             anchors.centerIn: parent
-                            color: "#595959"
+                            color: "#e6e6e6"
                             text: number
                             font.pixelSize: 20
                             width: parent.width - 10
@@ -392,11 +396,12 @@ Page {
                         id: episodeTitleRectangle
                         width: 600
                         height: 70
+                        color: "transparent"
 
                         Text {
                             id: episodeTitle
                             anchors.centerIn: parent
-                            color: "#595959"
+                            color: "#e6e6e6"
                             text: title
                             font.pixelSize: 20
                             width: parent.width - 10
@@ -408,11 +413,12 @@ Page {
                         id: episodeYearRectangle
                         width: 200
                         height: 70
+                        color: "transparent"
 
                         Text {
                             id: episodeYear
                             anchors.centerIn: parent
-                            color: "#595959"
+                            color: "#e6e6e6"
                             text: year
                             font.pixelSize: 20
                             width: parent.width - 10
